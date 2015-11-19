@@ -1,0 +1,12 @@
+policy_module(lame_svirt, 1.0.0)
+#ugly as sin. fix should be in libvirt, rather than here :(
+require {
+	type svirt_t;
+	type ifconfig_t;
+}
+
+corenet_rw_tun_tap_dev(svirt_t)
+corenet_relabel_tun_tap_dev(svirt_t)
+
+allow svirt_t ifconfig_t:tun_socket relabelfrom;
+allow svirt_t self:tun_socket { relabelto relabelfrom };
